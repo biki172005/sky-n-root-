@@ -1,0 +1,581 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>SKYnROOT SKINCARE — Natural Skincare Meets Modern Luxury | 3D Experience</title>
+  
+  <!-- SEO & Brand Metadata -->
+  <meta name="description" content="Discover SKYnROOT SKINCARE. Thoughtfully crafted skincare inspired by nature. Featuring wild-harvested botanicals, pure aloe vera, cold-pressed watermelon, and sustainable glass formulations." />
+  <meta name="keywords" content="SKYnROOT, SKY n ROOT, luxury skincare, natural face wash, botanical serum, watermelon sunscreen, aloe moisturizer" />
+  <meta name="theme-color" content="#243B2E" />
+
+  <!-- Open Graph -->
+  <meta property="og:title" content="SKYnROOT SKINCARE — Natural Skincare Meets Modern Luxury" />
+  <meta property="og:description" content="Thoughtfully crafted skincare inspired by the beauty of nature." />
+  <meta property="og:type" content="website" />
+
+  <!-- Google Fonts: Editorial Serif + Clean Modern Sans + Alex Brush Script -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Alex+Brush&family=Cinzel:wght@400;500;600;700&family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400;1,600&family=Playfair+Display:ital,wght@0,400;0,600;1,400&family=Plus+Jakarta+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet" />
+
+  <!-- Custom Stylesheet -->
+  <link rel="stylesheet" href="css/style.css" />
+
+  <!-- Three.js (WebGL 3D Engine) -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+  
+  <!-- GSAP & ScrollTrigger for Cinematic Storytelling -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
+</head>
+<body>
+
+  <!-- ================= STICKY LUXURY NAVIGATION ================= -->
+  <header class="main-navbar" id="main-navbar">
+    <div class="navbar-container">
+      <!-- Brand Official Logo -->
+      <a href="#" class="nav-brand" aria-label="SKYnROOT SKINCARE Homepage">
+        <span class="brand-emblem-icon">✦</span>
+        <span class="brand-wordmark">
+          <span class="brand-letters">SKY<em class="script-n">n</em>ROOT</span>
+          <span class="sub-skincare">SKINCARE</span>
+        </span>
+      </a>
+
+      <!-- Desktop Nav Links -->
+      <nav class="nav-links" aria-label="Main Navigation">
+        <a href="#hero" class="nav-link">Home</a>
+        <a href="#shop" class="nav-link">Shop</a>
+        <a href="#origin" class="nav-link">Our Story</a>
+        <a href="#ingredients" class="nav-link">Ingredients</a>
+        <a href="#ritual" class="nav-link">The Ritual</a>
+        <a href="#philosophy" class="nav-link">Philosophy</a>
+      </nav>
+
+      <!-- Nav Action Buttons -->
+      <div class="nav-actions">
+        <!-- Search Trigger -->
+        <button class="nav-action-btn" data-open-search aria-label="Search Formulations">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8">
+            <circle cx="11" cy="11" r="8"></circle>
+            <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+          </svg>
+        </button>
+
+        <!-- Wishlist Trigger -->
+        <button class="nav-action-btn" data-open-wishlist aria-label="Saved Wishlist">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8">
+            <path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"></path>
+          </svg>
+          <span class="count-badge wishlist-count-badge" style="display: none;">0</span>
+        </button>
+
+        <!-- Cart Bag Trigger -->
+        <button class="nav-action-btn" data-open-cart aria-label="Ritual Bag">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8">
+            <path d="M6 2L3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"></path>
+            <line x1="3" y1="6" x2="21" y2="6"></line>
+            <path d="M16 10a4 4 0 0 1-8 0"></path>
+          </svg>
+          <span class="count-badge cart-count-badge" style="display: none;">0</span>
+        </button>
+
+        <!-- Mobile Menu Toggle -->
+        <button class="mobile-toggle-btn" id="mobile-menu-toggle" aria-label="Open Mobile Menu">
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8">
+            <line x1="3" y1="12" x2="21" y2="12"></line>
+            <line x1="3" y1="6" x2="21" y2="6"></line>
+            <line x1="3" y1="18" x2="21" y2="18"></line>
+          </svg>
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    <!-- ================= HERO SECTION (3D WebGL EXPERIENCE) ================= -->
+    <section class="hero-section" id="hero">
+      <div class="hero-bg-accent"></div>
+
+      <!-- 3D WebGL Canvas Container -->
+      <div class="hero-canvas-container" id="hero-canvas-container" title="Drag to rotate bottle 360°"></div>
+
+      <div class="container">
+        <div class="hero-content">
+          <div class="hero-tag">
+            <span>✦</span>
+            <span>Natural Skincare Meets Modern Luxury</span>
+          </div>
+
+          <h1 class="hero-headline">
+            Your Skin.
+            <strong>Your Nature.</strong>
+          </h1>
+
+          <p class="hero-description">
+            Thoughtfully crafted skincare, inspired by the beauty of nature. Formulated with cold-pressed botanical actives, bio-ferments, and sustainable glass circularity.
+          </p>
+
+          <div class="hero-ctas">
+            <a href="#shop" class="btn btn-primary">EXPLORE THE COLLECTION</a>
+            <a href="#philosophy" class="btn btn-outline">DISCOVER OUR PHILOSOPHY</a>
+          </div>
+
+          <!-- 3D Bottle Material Customizer -->
+          <div class="hero-customizer">
+            <span class="customizer-label">Interactive 3D Bottle Finish:</span>
+            <div class="customizer-swatches">
+              <button class="swatch-btn swatch-amber active" data-finish-theme="amber" title="Amber Botanical"></button>
+              <button class="swatch-btn swatch-sage" data-finish-theme="sage" title="Sage Infusion"></button>
+              <button class="swatch-btn swatch-crystal" data-finish-theme="crystal" title="Pure Hydration"></button>
+              <button class="swatch-btn swatch-plum" data-finish-theme="plum" title="Blackberry Shield"></button>
+              <span class="swatch-tip">Drag bottle to rotate 360°</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="hero-scroll-cue">
+        <span class="scroll-line"></span>
+        <span>Scroll to Explore</span>
+      </div>
+    </section>
+
+
+    <!-- ================= SECTION A: THE ORIGIN ================= -->
+    <section class="section origin-section reveal-on-scroll" id="origin">
+      <div class="container">
+        <div class="origin-grid">
+          <div class="origin-visual-stack">
+            <img src="assets/images/hero-serum.png" alt="SKYnROOT Alchemy" class="origin-main-img parallax-image" />
+            <div class="origin-sub-badge">
+              <img src="assets/images/skynroot-logo.jpg" alt="SKYnROOT Official Logo" class="origin-logo-mark" style="width: 100%; border-radius: 4px; margin-bottom: 0.85rem; border: 1px solid var(--border-gold);" />
+              <span class="badge-stat">100%</span>
+              <p>Glass-first circular packaging & cold-pressed wild botanicals.</p>
+            </div>
+          </div>
+
+          <div class="origin-content">
+            <span class="section-badge">The Origin</span>
+            <h2 class="section-title">Rooted in Nature. <em>Designed for Your Ritual.</em></h2>
+            <blockquote class="origin-quote">
+              "We believe modern skincare should be quiet, potent, and in total reverence with the earth."
+            </blockquote>
+            <p class="origin-body">
+              SKYnROOT was conceived from a fundamental desire: stripping away the noise of modern synthetic cosmetics to uncover the true biological affinity between botanicals and human skin.
+            </p>
+            <p class="origin-body">
+              Every drop is distilled from certified sustainable crops — from Indian neem groves to Mediterranean watermelon harvests and alpine aloe succulents.
+            </p>
+
+            <div class="origin-pillars">
+              <div class="pillar-item">
+                <h4>Cold Extraction</h4>
+                <p>Nutrients harvested at peak vitality without thermal degradation.</p>
+              </div>
+              <div class="pillar-item">
+                <h4>Bio-Compatibility</h4>
+                <p>Formulated to respect and reinforce the natural acid mantle.</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+
+    <!-- ================= SECTION B: INGREDIENTS ================= -->
+    <section class="section ingredients-section reveal-on-scroll" id="ingredients">
+      <div class="container">
+        <div class="section-header">
+          <span class="section-badge">Pure Alchemy</span>
+          <h2 class="section-title">Nature, <em>Thoughtfully Selected.</em></h2>
+          <p class="section-subtitle">
+            Every element is vetted for verified efficacy, ecological sustainability, and clinical gentleness.
+          </p>
+        </div>
+
+        <!-- Interactive Ingredients Cards Grid -->
+        <div class="ingredients-grid" id="ingredients-grid">
+          <!-- Populated dynamically by main.js from INGREDIENTS_DATA -->
+        </div>
+
+        <!-- Editorial Flatlay Banner -->
+        <div class="ingredients-banner reveal-on-scroll">
+          <img src="assets/images/botanicals.png" alt="Raw Botanical Ingredients" class="ingredients-banner-img" />
+          <div class="ingredients-banner-content">
+            <span class="section-badge" style="color: var(--color-gold);">Conscious Sourcing</span>
+            <h3>From Seed to Serum</h3>
+            <p>
+              We partner directly with family cooperatives who cultivate wild neem, bamboo, and aloe without synthetic pesticides. Our ingredients are trace-mapped from origin soil to finished glass.
+            </p>
+            <div>
+              <a href="#shop" class="btn btn-outline-gold">SHOP FORMULATIONS</a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+
+    <!-- ================= SECTION C & 5: PRODUCT COLLECTION ================= -->
+    <section class="section shop-section reveal-on-scroll" id="shop">
+      <div class="container">
+        <div class="section-header">
+          <span class="section-badge">The Apothecary</span>
+          <h2 class="section-title">The Complete <em>Collection</em></h2>
+          <p class="section-subtitle">
+            Pure botanical formulations across face wash, antioxidant sunscreens, concentrated serums, hydra-creams, and balancing toners.
+          </p>
+        </div>
+
+        <!-- Collection Controls (Filter & Sort) -->
+        <div class="collection-controls">
+          <div class="filter-tabs">
+            <button class="filter-tab-btn active" data-filter="all">All Formulations</button>
+            <button class="filter-tab-btn" data-filter="facewash">Face Wash</button>
+            <button class="filter-tab-btn" data-filter="sunscreen">Sunscreen</button>
+            <button class="filter-tab-btn" data-filter="serum">Serum</button>
+            <button class="filter-tab-btn" data-filter="moisturizer">Moisturizer</button>
+            <button class="filter-tab-btn" data-filter="toner">Toner</button>
+          </div>
+
+          <div class="sort-wrapper">
+            <span class="sort-label">Sort By:</span>
+            <select class="sort-select" id="product-sort-select">
+              <option value="featured">Featured Curations</option>
+              <option value="price-low">Price: Low to High</option>
+              <option value="price-high">Price: High to Low</option>
+              <option value="name">Botanical Alphabetical</option>
+            </select>
+          </div>
+        </div>
+
+        <!-- Products Grid (All 9 items) -->
+        <div class="products-grid" id="products-grid">
+          <!-- Populated dynamically by main.js from PRODUCTS array -->
+        </div>
+      </div>
+    </section>
+
+
+    <!-- ================= SECTION D: THE SKINCARE RITUAL ================= -->
+    <section class="section ritual-section reveal-on-scroll" id="ritual">
+      <div class="container">
+        <div class="section-header">
+          <span class="section-badge" style="color: var(--color-gold);">Daily Harmony</span>
+          <h2 class="section-title">The 5-Step <em>Skincare Ritual</em></h2>
+          <p class="section-subtitle">
+            An intentional layering protocol designed to nourish, replenish, and fortify your skin barrier from dawn to dusk.
+          </p>
+        </div>
+
+        <!-- Step Tabs -->
+        <div class="ritual-step-tabs" id="ritual-step-tabs">
+          <!-- Populated dynamically by main.js from RITUAL_STEPS -->
+        </div>
+
+        <!-- Interactive Ritual Display Box -->
+        <div class="ritual-display" id="ritual-display">
+          <!-- Rendered dynamically by main.js -->
+        </div>
+
+        <div class="ritual-footer-action">
+          <button class="btn btn-outline-gold btn-large" id="add-entire-ritual-btn">
+            ✦ ADD COMPLETE 5-STEP RITUAL TO BAG
+          </button>
+        </div>
+      </div>
+    </section>
+
+
+    <!-- ================= SECTION E: BRAND PHILOSOPHY ================= -->
+    <section class="section philosophy-section reveal-on-scroll" id="philosophy">
+      <div class="container">
+        <div class="philosophy-grid">
+          <div class="philosophy-editorial">
+            <span class="section-badge">Our Creed</span>
+            <h2 class="philosophy-huge-quote">
+              Less Noise.
+              <span>More Nature.</span>
+            </h2>
+            <p class="philosophy-text">
+              The modern skincare industry is saturated with unverified synthetic promises and transient trends. At SKYnROOT, we practice restorative minimalism: fewer, higher-potency botanical actives that work in synchrony with human biology.
+            </p>
+            <p class="philosophy-text">
+              We bottle our formulas exclusively in UV-filtering heavy glass containers to protect botanical polyphenols naturally, reducing plastic footprint to an absolute minimum.
+            </p>
+
+            <div class="values-list">
+              <div class="value-item">
+                <h4>Clean Chemistry</h4>
+                <p>Zero silicones, parabens, phthalates, synthetic colorants, or fillers.</p>
+              </div>
+              <div class="value-item">
+                <h4>Glass Circularity</h4>
+                <p>100% infinitely recyclable amber & frosted apothecary glass.</p>
+              </div>
+              <div class="value-item">
+                <h4>Ethical Harvest</h4>
+                <p>Fair-trade regenerative sourcing supporting wild cultivator networks.</p>
+              </div>
+              <div class="value-item">
+                <h4>Cruelty-Free</h4>
+                <p>Never tested on animals. Tested only on human volunteers.</p>
+              </div>
+            </div>
+          </div>
+
+          <div class="philosophy-imagery">
+            <img src="assets/images/hero-serum.png" alt="Quiet Botanical Luxury" class="philosophy-main-photo parallax-image" />
+          </div>
+        </div>
+      </div>
+    </section>
+
+
+    <!-- ================= SECTION F: FINAL CALL TO ACTION ================= -->
+    <section class="final-cta-section reveal-on-scroll">
+      <div class="cta-botanical-glow"></div>
+      <div class="container">
+        <div class="cta-content">
+          <span class="cta-tagline">Begin Your Transformation</span>
+          <h2 class="cta-headline">Find Your Everyday Ritual.</h2>
+          <p class="cta-description">
+            Experience the synergy of wild-harvested botanicals and restorative skincare. Join over 10,000 patrons honoring their daily glow.
+          </p>
+          <a href="#shop" class="btn btn-primary btn-large">EXPLORE SKYnROOT</a>
+        </div>
+      </div>
+    </section>
+  </main>
+
+
+  <!-- ================= LUXURY FOOTER ================= -->
+  <footer class="site-footer">
+    <div class="container">
+      <div class="footer-top">
+        <div class="footer-brand">
+          <div class="brand-wordmark" style="margin-bottom: 1.25rem;">
+            <span class="brand-letters" style="color: var(--color-ivory); font-size: 2rem;">SKY<em class="script-n" style="color: var(--color-gold);">n</em>ROOT</span>
+            <span class="sub-skincare" style="color: var(--color-gold); font-size: 0.72rem; text-align: left; letter-spacing: 0.35em;">SKINCARE</span>
+          </div>
+          <p>
+            Thoughtfully crafted skincare, inspired by the beauty of nature. Formulated with wild-harvested botanical extracts and circular glass design.
+          </p>
+          <small style="color: var(--color-gold);">Natural skincare meets modern luxury.</small>
+        </div>
+
+        <div class="footer-col">
+          <h4>Boutique</h4>
+          <ul>
+            <li><a href="#shop">All Formulations</a></li>
+            <li><a href="#shop">Face Washes</a></li>
+            <li><a href="#shop">Mineral Sunscreens</a></li>
+            <li><a href="#shop">Signature Serum</a></li>
+            <li><a href="#shop">Hydra-Moisturizers</a></li>
+            <li><a href="#shop">Balancing Toners</a></li>
+          </ul>
+        </div>
+
+        <div class="footer-col">
+          <h4>The House</h4>
+          <ul>
+            <li><a href="#origin">Our Heritage</a></li>
+            <li><a href="#ingredients">Botanical Glossary</a></li>
+            <li><a href="#ritual">The 5-Step Ritual</a></li>
+            <li><a href="#philosophy">Circularity & Glass</a></li>
+            <li><a href="#origin">Sustainability Report</a></li>
+          </ul>
+        </div>
+
+        <div class="footer-col">
+          <h4>The Journal</h4>
+          <p style="font-size: 0.8125rem; color: var(--color-sage-light); margin-bottom: 1rem;">
+            Receive private releases, botanical research, and 10% off your first ritual order.
+          </p>
+          <form class="newsletter-form" onsubmit="event.preventDefault(); window.skynroot && window.skynroot.showToast('Thank you for subscribing to The Journal.');">
+            <input type="email" placeholder="Your email address" required />
+            <button type="submit">JOIN</button>
+          </form>
+        </div>
+      </div>
+
+      <div class="footer-bottom">
+        <div>© 2026 SKYnROOT BOTANICAL APOTHECARY. All Rights Reserved.</div>
+        <div>Configurable Prototype • Natural Luxury Beauty</div>
+      </div>
+    </div>
+  </footer>
+
+
+  <!-- ================= DRAWERS & MODALS ================= -->
+
+  <!-- 1. CART DRAWER -->
+  <div class="drawer-overlay" id="cart-overlay" data-close-cart></div>
+  <aside class="side-drawer" id="cart-drawer" aria-label="Shopping Cart">
+    <div class="drawer-header">
+      <h3 class="drawer-title">Your Ritual Bag</h3>
+      <button class="drawer-close" data-close-cart aria-label="Close Bag">✕</button>
+    </div>
+
+    <!-- Free Shipping Progress -->
+    <div class="shipping-progress-banner">
+      <div class="progress-track">
+        <div class="progress-fill" id="free-shipping-progress"></div>
+      </div>
+      <p class="shipping-status-text" id="free-shipping-text">Add ₹999 for complimentary carbon-neutral shipping</p>
+    </div>
+
+    <div class="drawer-body" id="cart-items-list">
+      <!-- Injected by cart.js -->
+    </div>
+
+    <div class="drawer-footer">
+      <!-- Promo code input -->
+      <div class="promo-input-group">
+        <input type="text" id="promo-code-input" placeholder="Promo code (try: NATURE10)" />
+        <button class="btn btn-sm btn-outline" id="apply-promo-btn">APPLY</button>
+      </div>
+
+      <div class="cart-calc-row">
+        <span>Subtotal</span>
+        <span id="cart-subtotal">₹0</span>
+      </div>
+      <div class="cart-calc-row" id="cart-discount-row" style="display: none; color: #4B6B48;">
+        <span>Welcome Discount (10%)</span>
+        <span id="cart-discount-amount">-₹0</span>
+      </div>
+      <div class="cart-calc-row">
+        <span>Carbon-Neutral Shipping</span>
+        <span id="cart-shipping">Complimentary</span>
+      </div>
+      <div class="cart-calc-row total-row">
+        <span>Estimated Total</span>
+        <span id="cart-total">₹0</span>
+      </div>
+
+      <button class="btn btn-primary" id="checkout-action-btn" style="width: 100%;">PROCEED TO CHECKOUT</button>
+    </div>
+  </aside>
+
+  <!-- 2. WISHLIST DRAWER -->
+  <div class="drawer-overlay" id="wishlist-overlay" data-close-wishlist></div>
+  <aside class="side-drawer" id="wishlist-drawer" aria-label="Wishlist">
+    <div class="drawer-header">
+      <h3 class="drawer-title">Saved Formulations</h3>
+      <button class="drawer-close" data-close-wishlist aria-label="Close Wishlist">✕</button>
+    </div>
+    <div class="drawer-body" id="wishlist-items-list">
+      <!-- Injected by cart.js -->
+    </div>
+  </aside>
+
+  <!-- 3. LIVE SEARCH MODAL -->
+  <div class="search-modal" id="search-modal">
+    <div class="search-modal-header">
+      <div class="search-field-wrap">
+        <span class="search-icon-left">✦</span>
+        <input type="text" id="site-search-input" placeholder="Search formulations, ingredients, or rituals..." autocomplete="off" />
+      </div>
+      <button class="btn-icon" data-close-search aria-label="Close Search">✕</button>
+    </div>
+    <div class="search-results-container" id="search-results-list">
+      <!-- Injected by cart.js -->
+    </div>
+  </div>
+
+  <!-- 4. PRODUCT DETAIL MODAL -->
+  <div class="product-modal" id="product-detail-modal">
+    <div class="product-modal-dialog">
+      <button class="product-modal-close" data-close-modal aria-label="Close Product View">✕</button>
+      <div class="product-modal-content">
+        <!-- Rendered dynamically by cart.js -->
+      </div>
+    </div>
+  </div>
+
+  <!-- 5. CHECKOUT CONFIRMATION MODAL -->
+  <div class="checkout-modal" id="checkout-modal">
+    <div class="checkout-dialog" id="checkout-modal-content">
+      <button class="product-modal-close" data-close-checkout aria-label="Close Checkout">✕</button>
+      <h3 class="checkout-title">Complete Your Ritual Order</h3>
+      <p class="checkout-subtitle">Prototype checkout simulation with luxury shipping details.</p>
+
+      <form id="checkout-form">
+        <div class="form-row">
+          <div class="form-group">
+            <label>First Name</label>
+            <input type="text" required value="Aanya" />
+          </div>
+          <div class="form-group">
+            <label>Last Name</label>
+            <input type="text" required value="Sharma" />
+          </div>
+        </div>
+        <div class="form-group">
+          <label>Delivery Address</label>
+          <input type="text" required value="42, Lotus Boulevard, Bandra West" />
+        </div>
+        <div class="form-row">
+          <div class="form-group">
+            <label>City & State</label>
+            <input type="text" required value="Mumbai, Maharashtra" />
+          </div>
+          <div class="form-group">
+            <label>PIN Code</label>
+            <input type="text" required value="400050" />
+          </div>
+        </div>
+
+        <div class="checkout-summary-box">
+          <div class="cart-calc-row">
+            <span>Order Subtotal:</span>
+            <span id="checkout-subtotal">₹0</span>
+          </div>
+          <div class="cart-calc-row">
+            <span>Packaging & Shipping:</span>
+            <span id="checkout-shipping">Complimentary</span>
+          </div>
+          <div class="cart-calc-row total-row">
+            <span>Total Payable:</span>
+            <span id="checkout-total">₹0</span>
+          </div>
+        </div>
+
+        <button type="submit" class="btn btn-primary" style="width: 100%;">CONFIRM & PLACE ORDER</button>
+      </form>
+    </div>
+  </div>
+
+  <!-- 6. MOBILE NAVIGATION DRAWER -->
+  <div class="mobile-menu" id="mobile-menu">
+    <div class="mobile-menu-header">
+      <div class="brand-wordmark">
+        <span class="brand-letters" style="color: var(--color-ivory); font-size: 2rem;">SKY<em class="script-n" style="color: var(--color-gold);">n</em>ROOT</span>
+        <span class="sub-skincare" style="color: var(--color-gold); font-size: 0.65rem; text-align: left; letter-spacing: 0.35em;">SKINCARE</span>
+      </div>
+      <button class="drawer-close" id="mobile-menu-close" style="color: var(--color-ivory);">✕</button>
+    </div>
+    <nav class="mobile-nav-links">
+      <a href="#hero" class="mobile-nav-link">Home</a>
+      <a href="#shop" class="mobile-nav-link">Shop</a>
+      <a href="#origin" class="mobile-nav-link">Our Story</a>
+      <a href="#ingredients" class="mobile-nav-link">Ingredients</a>
+      <a href="#ritual" class="mobile-nav-link">The Ritual</a>
+      <a href="#philosophy" class="mobile-nav-link">Philosophy</a>
+    </nav>
+  </div>
+
+  <!-- Toast Notification Container -->
+  <div class="toast-container" id="toast-container"></div>
+
+  <!-- Application Modules -->
+  <script type="module" src="js/products.js"></script>
+  <script type="module" src="js/three-hero.js"></script>
+  <script type="module" src="js/cart.js"></script>
+  <script type="module" src="js/main.js"></script>
+</body>
+</html>

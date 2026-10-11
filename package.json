@@ -1,0 +1,25 @@
+{
+  "name": "sky-n-root",
+  "version": "1.0.0",
+  "description": "SKYnROOT SKINCARE — Natural Skincare Meets Modern Luxury with 3D Experience",
+  "main": "index.html",
+  "scripts": {
+    "start": "npx serve .",
+    "dev": "npx serve ."
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/biki172005/sky-n-root-.git"
+  },
+  "keywords": [
+    "skynroot",
+    "skincare",
+    "threejs",
+    "3d-experience",
+    "luxury-web",
+    "awwwards",
+    "ecommerce"
+  ],
+  "author": "SKYnROOT",
+  "license": "MIT"
+}
