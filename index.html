@@ -95,53 +95,85 @@
   </header>
 
   <main>
-    <!-- ================= HERO SECTION (3D WebGL EXPERIENCE) ================= -->
-    <section class="hero-section" id="hero">
-      <div class="hero-bg-accent"></div>
+    <!-- ================= HERO SECTION: THE LIVING GLASS WORLD ================= -->
+    <div class="hero-cinematic-track" id="hero-track">
+      <section class="hero-section hero-sticky-stage" id="hero">
+        <div class="hero-bg-accent"></div>
 
-      <!-- 3D WebGL Canvas Container -->
-      <div class="hero-canvas-container" id="hero-canvas-container" title="Drag to rotate bottle 360°"></div>
+        <!-- Full-bleed 3D WebGL Canvas Container -->
+        <div class="hero-canvas-container" id="hero-canvas-container" title="Drag to orbit • Scroll to travel inside the living glass"></div>
 
-      <div class="container">
-        <div class="hero-content">
-          <div class="hero-tag">
-            <span>✦</span>
-            <span>Natural Skincare Meets Modern Luxury</span>
+        <div class="container hero-interface-container">
+          <!-- Phase 1: Hero Entry Content -->
+          <div class="hero-content" id="hero-intro-content">
+            <div class="hero-tag">
+              <span>✦</span>
+              <span>The Living Glass World</span>
+            </div>
+
+            <h1 class="hero-headline">
+              Your Skin.
+              <strong>Your Nature.</strong>
+            </h1>
+
+            <p class="hero-description">
+              Discover the beauty of nature, reimagined through skincare.
+            </p>
+
+            <div class="hero-ctas">
+              <button class="btn btn-primary btn-enter-world" id="enter-world-btn">
+                <span>ENTER THE WORLD</span>
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                  <path d="M5 12h14M12 5l7 7-7 7"/>
+                </svg>
+              </button>
+              <a href="#shop" class="btn btn-outline">COLLECTION</a>
+            </div>
+
+            <!-- 3D Atmosphere & Finish Customizer -->
+            <div class="hero-customizer">
+              <span class="customizer-label">Living World Atmosphere:</span>
+              <div class="customizer-swatches">
+                <button class="swatch-btn swatch-amber active" data-finish-theme="amber" title="Amber Botanical"></button>
+                <button class="swatch-btn swatch-sage" data-finish-theme="sage" title="Sage Infusion"></button>
+                <button class="swatch-btn swatch-crystal" data-finish-theme="crystal" title="Pure Hydration"></button>
+                <button class="swatch-btn swatch-plum" data-finish-theme="plum" title="Blackberry Shield"></button>
+                <span class="swatch-tip">Drag to orbit 360°</span>
+              </div>
+            </div>
           </div>
 
-          <h1 class="hero-headline">
-            Your Skin.
-            <strong>Your Nature.</strong>
-          </h1>
-
-          <p class="hero-description">
-            Thoughtfully crafted skincare, inspired by the beauty of nature. Formulated with cold-pressed botanical actives, bio-ferments, and sustainable glass circularity.
-          </p>
-
-          <div class="hero-ctas">
-            <a href="#shop" class="btn btn-primary">EXPLORE THE COLLECTION</a>
-            <a href="#philosophy" class="btn btn-outline">DISCOVER OUR PHILOSOPHY</a>
-          </div>
-
-          <!-- 3D Bottle Material Customizer -->
-          <div class="hero-customizer">
-            <span class="customizer-label">Interactive 3D Bottle Finish:</span>
-            <div class="customizer-swatches">
-              <button class="swatch-btn swatch-amber active" data-finish-theme="amber" title="Amber Botanical"></button>
-              <button class="swatch-btn swatch-sage" data-finish-theme="sage" title="Sage Infusion"></button>
-              <button class="swatch-btn swatch-crystal" data-finish-theme="crystal" title="Pure Hydration"></button>
-              <button class="swatch-btn swatch-plum" data-finish-theme="plum" title="Blackberry Shield"></button>
-              <span class="swatch-tip">Drag bottle to rotate 360°</span>
+          <!-- Phase 2: Serum In-World Product Reveal HUD (revealed when camera breaches the glass) -->
+          <div class="serum-reveal-hud" id="serum-reveal-hud">
+            <div class="serum-hud-card">
+              <div class="hud-tag">✦ Core Botanical Alchemy</div>
+              <h2 class="hud-title"><span class="brand-inline">SKY<em class="script-n">n</em>ROOT</span> Signature Serum</h2>
+              <p class="hud-desc">Formulated with tri-molecular botanical hyaluronic acid and cold-pressed bio-ferments inside frosted circular glass.</p>
+              <div class="hud-price-row">
+                <span class="hud-price">₹1,499</span>
+                <span class="hud-size">30 ml / 1.0 fl oz</span>
+              </div>
+              <div class="hud-actions">
+                <button class="btn btn-primary btn-sm" onclick="window.skynroot && window.skynroot.addToCart('signature-serum', 1)">
+                  ADD TO RITUAL BAG
+                </button>
+                <button class="btn btn-outline btn-sm" onclick="window.skynroot && window.skynroot.openProductModal('signature-serum')">
+                  VIEW INGREDIENTS
+                </button>
+              </div>
             </div>
           </div>
         </div>
-      </div>
 
-      <div class="hero-scroll-cue">
-        <span class="scroll-line"></span>
-        <span>Scroll to Explore</span>
-      </div>
-    </section>
+        <!-- Dynamic Journey Status Bar & Scroll Cue -->
+        <div class="hero-journey-indicator" id="hero-journey-indicator">
+          <div class="journey-track">
+            <div class="journey-fill" id="journey-fill-bar"></div>
+          </div>
+          <span class="journey-label" id="journey-label">Scroll to enter the living glass</span>
+        </div>
+      </section>
+    </div>
 
 
     <!-- ================= SECTION A: THE ORIGIN ================= -->

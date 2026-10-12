@@ -4,6 +4,10 @@ An award-winning, luxury e-commerce and interactive 3D WebGL experience for **SK
 
 ---
 
+> 🏛️ **Architecture Blueprint**: For an exhaustive breakdown of the tech stack, 3D WebGL engine, reactive store logic, and component lifecycles, see [PROJECT_ARCHITECTURE.md](./PROJECT_ARCHITECTURE.md).
+
+---
+
 ## ✨ Features
 
 - **Interactive 3D WebGL Bottle Experience**:
@@ -81,6 +85,7 @@ npx serve .
 ├── index.html                # Semantic HTML5 single-page application
 ├── package.json              # Project metadata & npm scripts
 ├── vercel.json               # Vercel deployment & asset caching configuration
+├── PROJECT_ARCHITECTURE.md   # Exhaustive system architecture, logic & technical specification
 └── README.md                 # Documentation
 ```
 

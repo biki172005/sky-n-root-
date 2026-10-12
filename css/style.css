@@ -487,33 +487,40 @@ body::before {
   color: var(--color-forest);
 }
 
-/* ================= HERO SECTION (3D CANVAS) ================= */
-.hero-section {
+/* ================= HERO SECTION: THE LIVING GLASS WORLD ================= */
+.hero-cinematic-track {
   position: relative;
+  height: 250vh;
+}
+
+.hero-sticky-stage {
+  position: sticky;
+  top: 0;
+  width: 100%;
+  height: 100vh;
   min-height: 100vh;
-  padding-top: var(--header-height);
+  padding-top: 0;
+  overflow: hidden;
   display: flex;
   align-items: center;
-  background: radial-gradient(circle at 65% 45%, #FBF9F4 0%, #F4EFE5 50%, #ECE4D6 100%);
-  overflow: hidden;
+  background: radial-gradient(circle at 50% 50%, #FCFBF8 0%, #F5F1E8 45%, #EBE3D4 100%);
 }
 
 .hero-bg-accent {
   position: absolute;
-  top: 15%;
-  left: 5%;
-  width: 500px;
-  height: 500px;
-  background: radial-gradient(circle, rgba(166, 179, 154, 0.22) 0%, rgba(247, 245, 239, 0) 70%);
+  top: 20%;
+  left: 15%;
+  width: 650px;
+  height: 650px;
+  background: radial-gradient(circle, rgba(166, 179, 154, 0.28) 0%, rgba(247, 245, 239, 0) 70%);
   pointer-events: none;
-  filter: blur(40px);
+  filter: blur(60px);
 }
 
 .hero-canvas-container {
   position: absolute;
-  top: 0;
-  right: 0;
-  width: 62%;
+  inset: 0;
+  width: 100%;
   height: 100%;
   z-index: 2;
   cursor: grab;
@@ -523,12 +530,25 @@ body::before {
   cursor: grabbing;
 }
 
+.hero-interface-container {
+  position: relative;
+  z-index: 4;
+  pointer-events: none;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
 .hero-content {
   position: relative;
   z-index: 3;
-  max-width: 620px;
-  padding: 4rem 0 6rem;
+  max-width: 560px;
+  padding: 8.5rem 0 3rem;
+  margin-left: 0.5rem;
   pointer-events: none;
+  transition: opacity 0.5s cubic-bezier(0.16, 1, 0.3, 1), transform 0.5s cubic-bezier(0.16, 1, 0.3, 1);
 }
 
 .hero-content * {
@@ -540,8 +560,9 @@ body::before {
   align-items: center;
   gap: 0.5rem;
   padding: 0.4rem 1.1rem;
-  background-color: rgba(255, 255, 255, 0.7);
-  backdrop-filter: blur(8px);
+  background-color: rgba(255, 255, 255, 0.75);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
   border: 1px solid var(--border-subtle);
   border-radius: var(--radius-pill);
   font-size: 0.75rem;
@@ -574,7 +595,7 @@ body::before {
   font-weight: 300;
   line-height: 1.7;
   margin-bottom: 3rem;
-  max-width: 500px;
+  max-width: 480px;
 }
 
 .hero-ctas {
@@ -582,10 +603,99 @@ body::before {
   align-items: center;
   gap: 1.5rem;
   flex-wrap: wrap;
-  margin-bottom: 3.5rem;
+  margin-bottom: 3rem;
 }
 
-/* 3D Finish Customizer Controls */
+.btn-enter-world {
+  box-shadow: 0 4px 20px rgba(185, 167, 122, 0.35);
+  display: inline-flex;
+  align-items: center;
+  gap: 0.65rem;
+}
+
+.btn-enter-world:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 30px rgba(185, 167, 122, 0.45);
+}
+
+/* In-World Serum Product Reveal HUD */
+.serum-reveal-hud {
+  position: absolute;
+  right: 3rem;
+  bottom: 5.5rem;
+  max-width: 440px;
+  opacity: 0;
+  transform: translateY(30px);
+  pointer-events: none;
+  transition: opacity 0.6s cubic-bezier(0.16, 1, 0.3, 1), transform 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+  z-index: 5;
+}
+
+.serum-reveal-hud.visible {
+  opacity: 1;
+  transform: translateY(0);
+  pointer-events: auto;
+}
+
+.serum-hud-card {
+  background: rgba(247, 245, 239, 0.88);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  border: 1px solid var(--border-gold);
+  border-radius: var(--radius-md);
+  padding: 1.85rem 2.25rem;
+  box-shadow: 0 20px 45px rgba(24, 40, 32, 0.14);
+}
+
+.hud-tag {
+  font-size: 0.6875rem;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  color: var(--color-gold);
+  font-weight: 600;
+  margin-bottom: 0.5rem;
+}
+
+.hud-title {
+  font-family: var(--font-serif);
+  font-size: 1.85rem;
+  color: var(--color-forest);
+  margin-bottom: 0.6rem;
+  line-height: 1.2;
+}
+
+.hud-desc {
+  font-size: 0.875rem;
+  color: var(--text-secondary);
+  line-height: 1.6;
+  margin-bottom: 1.25rem;
+}
+
+.hud-price-row {
+  display: flex;
+  align-items: baseline;
+  gap: 0.75rem;
+  margin-bottom: 1.25rem;
+}
+
+.hud-price {
+  font-family: var(--font-serif);
+  font-size: 1.6rem;
+  font-weight: 600;
+  color: var(--color-forest);
+}
+
+.hud-size {
+  font-size: 0.8125rem;
+  color: var(--text-muted);
+}
+
+.hud-actions {
+  display: flex;
+  gap: 0.75rem;
+}
+
+/* 3D Atmosphere & Finish Customizer Controls */
 .hero-customizer {
   display: inline-flex;
   flex-direction: column;
@@ -593,6 +703,7 @@ body::before {
   padding: 1rem 1.5rem;
   background: rgba(255, 255, 255, 0.65);
   backdrop-filter: blur(14px);
+  -webkit-backdrop-filter: blur(14px);
   border: 1px solid var(--border-subtle);
   border-radius: var(--radius-md);
 }
@@ -637,25 +748,41 @@ body::before {
   margin-left: 0.5rem;
 }
 
-/* Scroll indicator */
-.hero-scroll-cue {
+/* Dynamic Journey Status Bar & Scroll Cue */
+.hero-journey-indicator {
   position: absolute;
-  bottom: 2.5rem;
-  left: 2rem;
+  bottom: 2.25rem;
+  right: 3rem;
+  left: auto;
   display: flex;
   align-items: center;
-  gap: 1rem;
-  font-size: 0.72rem;
-  letter-spacing: 0.2em;
-  text-transform: uppercase;
-  color: var(--text-muted);
-  z-index: 3;
+  gap: 1.25rem;
+  z-index: 5;
+  pointer-events: none;
 }
 
-.scroll-line {
-  width: 48px;
-  height: 1px;
-  background-color: var(--color-gold);
+.journey-track {
+  width: 90px;
+  height: 2px;
+  background: rgba(185, 167, 122, 0.25);
+  border-radius: 99px;
+  overflow: hidden;
+}
+
+.journey-fill {
+  width: 0%;
+  height: 100%;
+  background: var(--color-gold);
+  transition: width 0.15s ease-out;
+}
+
+.journey-label {
+  font-size: 0.72rem;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--text-muted);
+  font-weight: 500;
+  transition: opacity 0.3s ease;
 }
 
 /* ================= SECTION A: THE ORIGIN ================= */
@@ -2607,8 +2734,8 @@ body::before {
 
 /* ================= RESPONSIVE MEDIA QUERIES ================= */
 @media (max-width: 1080px) {
-  .hero-canvas-container {
-    width: 50%;
+  .hero-content {
+    max-width: 480px;
   }
 
   .origin-grid, .philosophy-grid, .ingredients-banner, .ritual-step-card {
@@ -2637,21 +2764,20 @@ body::before {
     display: flex;
   }
 
-  .hero-section {
-    flex-direction: column-reverse;
-    justify-content: center;
-    padding-top: 6rem;
+  .hero-sticky-stage {
+    padding-top: 4rem;
   }
 
-  .hero-canvas-container {
-    position: relative;
-    width: 100%;
-    height: 420px;
+  .hero-interface-container {
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
   }
 
   .hero-content {
     max-width: 100%;
-    padding: 2rem 0;
+    padding: 2rem 1.5rem;
     text-align: center;
   }
 
@@ -2670,6 +2796,17 @@ body::before {
 
   .hero-customizer {
     margin: 0 auto;
+  }
+
+  .serum-reveal-hud {
+    right: 1.5rem;
+    left: 1.5rem;
+    bottom: 4.5rem;
+    max-width: 100%;
+  }
+
+  .serum-hud-card {
+    padding: 1.5rem;
   }
 
   .product-modal-content {
