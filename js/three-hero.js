@@ -109,22 +109,27 @@ export class SkynrootHeroExperience {
 
     const width = this.container.clientWidth || window.innerWidth;
     const height = this.container.clientHeight || window.innerHeight;
+    const isMobile = width <= 768;
 
     // 1. Scene
     this.scene = new THREE.Scene();
 
-    // 2. Camera: Wide cinematic perspective looking at the living glass sphere
+    // 2. Camera: Responsive perspective adapted to device aspect ratio
     this.camera = new THREE.PerspectiveCamera(38, width / height, 0.1, 100);
-    this.camera.position.set(0, 0.25, 6.6);
+    this.cameraDistanceFactor = 1.0;
+    this.cameraYOffset = 0;
+    this.updateCameraFraming();
+    this.camera.position.set(0, 0.25, 6.6 * this.cameraDistanceFactor);
 
-    // 3. WebGL Renderer with High-End Color Science
+    // 3. WebGL Renderer with High-End Color Science & Mobile GPU Protection
     this.renderer = new THREE.WebGLRenderer({
       antialias: true,
       alpha: true,
       powerPreference: 'high-performance'
     });
     this.renderer.setSize(width, height);
-    this.renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+    const maxDpr = isMobile ? 1.5 : 2;
+    this.renderer.setPixelRatio(Math.min(window.devicePixelRatio || 1, maxDpr));
     this.renderer.toneMapping = THREE.ACESFilmicToneMapping;
     this.renderer.toneMappingExposure = 1.18;
     this.renderer.shadowMap.enabled = true;
@@ -161,11 +166,13 @@ export class SkynrootHeroExperience {
     this.scene.add(ambientLight);
 
     // B. Key Directional Sunlight (Casting soft shadows)
+    const isMobile = (this.container.clientWidth || window.innerWidth) <= 768;
+    const shadowRes = isMobile ? 512 : 1024;
     this.keyLight = new THREE.DirectionalLight(0xfff6eb, 2.6);
     this.keyLight.position.set(4.5, 6.5, 5.0);
     this.keyLight.castShadow = true;
-    this.keyLight.shadow.mapSize.width = 1024;
-    this.keyLight.shadow.mapSize.height = 1024;
+    this.keyLight.shadow.mapSize.width = shadowRes;
+    this.keyLight.shadow.mapSize.height = shadowRes;
     this.keyLight.shadow.bias = -0.0004;
     this.scene.add(this.keyLight);
 
@@ -812,26 +819,46 @@ export class SkynrootHeroExperience {
       dom.style.cursor = 'grab';
     });
 
-    // Touch support for mobile devices
+    // Touch support for mobile devices without fighting vertical scroll
+    let touchStartX = 0;
+    let touchStartY = 0;
+    let isVerticalScroll = false;
+
     dom.addEventListener('touchstart', (e) => {
       if (e.touches.length === 1) {
-        this.isDragging = true;
-        this.previousMousePosition = { x: e.touches[0].clientX, y: e.touches[0].clientY };
+        touchStartX = e.touches[0].clientX;
+        touchStartY = e.touches[0].clientY;
+        this.previousMousePosition = { x: touchStartX, y: touchStartY };
+        isVerticalScroll = false;
+        this.isDragging = false;
       }
     }, { passive: true });
 
     window.addEventListener('touchmove', (e) => {
-      if (this.isDragging && e.touches.length === 1) {
+      if (e.touches.length === 1 && !isVerticalScroll) {
         const deltaX = e.touches[0].clientX - this.previousMousePosition.x;
         const deltaY = e.touches[0].clientY - this.previousMousePosition.y;
-        this.manualOrbitY += deltaX * 0.008;
-        this.manualOrbitX += deltaY * 0.004;
-        this.previousMousePosition = { x: e.touches[0].clientX, y: e.touches[0].clientY };
+        const totalX = Math.abs(e.touches[0].clientX - touchStartX);
+        const totalY = Math.abs(e.touches[0].clientY - touchStartY);
+
+        // If user is predominantly scrolling vertically, release drag to browser
+        if (totalY > totalX + 6 && !this.isDragging) {
+          isVerticalScroll = true;
+          return;
+        }
+
+        if (totalX > 6) {
+          this.isDragging = true;
+          this.manualOrbitY += deltaX * 0.006;
+          this.manualOrbitX += deltaY * 0.003;
+          this.previousMousePosition = { x: e.touches[0].clientX, y: e.touches[0].clientY };
+        }
       }
     }, { passive: true });
 
     window.addEventListener('touchend', () => {
       this.isDragging = false;
+      isVerticalScroll = false;
     });
 
     // B. Scroll Tracking through the Cinematic Track
@@ -879,15 +906,78 @@ export class SkynrootHeroExperience {
       });
     });
 
-    // E. Window Resize
+    // E. Responsive Window Resize & Dynamic Viewport Framing
     window.addEventListener('resize', () => {
       if (!this.container || !this.renderer) return;
       const width = this.container.clientWidth || window.innerWidth;
       const height = this.container.clientHeight || window.innerHeight;
-      this.camera.aspect = width / height;
-      this.camera.updateProjectionMatrix();
+      this.updateCameraFraming();
       this.renderer.setSize(width, height);
+      const isMobile = width <= 768;
+      const maxDpr = isMobile ? 1.5 : 2;
+      this.renderer.setPixelRatio(Math.min(window.devicePixelRatio || 1, maxDpr));
     });
+
+    // F. Performance Optimization: Pause Render Loop when hero is off-screen or tab hidden
+    this.isSceneVisible = true;
+    this.animationFrameId = null;
+
+    if ('IntersectionObserver' in window && this.heroTrack) {
+      this.visibilityObserver = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+          const wasVisible = this.isSceneVisible;
+          this.isSceneVisible = entry.isIntersecting;
+          if (!wasVisible && this.isSceneVisible && !this.animationFrameId) {
+            this.animate(performance.now());
+          }
+        });
+      }, { threshold: 0.02 });
+      this.visibilityObserver.observe(this.heroTrack);
+    }
+
+    document.addEventListener('visibilitychange', () => {
+      if (!document.hidden && this.isSceneVisible && !this.animationFrameId) {
+        this.animate(performance.now());
+      }
+    });
+
+    // Respect prefers-reduced-motion
+    const motionQuery = window.matchMedia('(prefers-reduced-motion: reduce)');
+    this.prefersReducedMotion = motionQuery.matches;
+    motionQuery.addEventListener('change', (e) => {
+      this.prefersReducedMotion = e.matches;
+    });
+  }
+
+  updateCameraFraming() {
+    if (!this.camera || !this.container) return;
+    const width = this.container.clientWidth || window.innerWidth;
+    const height = this.container.clientHeight || window.innerHeight;
+    const aspect = width / height;
+    this.camera.aspect = aspect;
+
+    if (aspect < 0.6) {
+      // Small/standard mobile portrait (e.g. 320px–430px)
+      this.camera.fov = 48;
+      this.cameraDistanceFactor = 1.30;
+      this.cameraYOffset = 0.22; // Elevate sphere so it sits naturally above bottom elements
+    } else if (aspect < 0.85) {
+      // Large phone / small tablet portrait (e.g. 431px–600px)
+      this.camera.fov = 44;
+      this.cameraDistanceFactor = 1.18;
+      this.cameraYOffset = 0.14;
+    } else if (aspect < 1.05) {
+      // Tablet portrait / square (e.g. 601px–1024px)
+      this.camera.fov = 40;
+      this.cameraDistanceFactor = 1.08;
+      this.cameraYOffset = 0.06;
+    } else {
+      // Desktop / wide
+      this.camera.fov = 38;
+      this.cameraDistanceFactor = 1.0;
+      this.cameraYOffset = 0;
+    }
+    this.camera.updateProjectionMatrix();
   }
 
   setTheme(themeKey) {
@@ -908,7 +998,13 @@ export class SkynrootHeroExperience {
 
   // ================= 8. ANIMATION LOOP & CHOREOGRAPHY =================
   animate(timestamp) {
-    requestAnimationFrame(this.animate);
+    // If scene is hidden or tab inactive, pause rendering to protect mobile battery & CPU
+    if (!this.isSceneVisible || document.hidden) {
+      this.animationFrameId = null;
+      return;
+    }
+
+    this.animationFrameId = requestAnimationFrame(this.animate);
 
     const time = timestamp * 0.001;
 
@@ -920,14 +1016,17 @@ export class SkynrootHeroExperience {
     this.scrollProgress += (this.targetScrollProgress - this.scrollProgress) * 0.08;
     const p = this.scrollProgress;
 
-    // Auto-spin damping when not dragging
-    if (!this.isDragging) {
+    // Auto-spin damping when not dragging (respects prefers-reduced-motion)
+    if (!this.isDragging && !this.prefersReducedMotion) {
       this.manualOrbitY += 0.0018; // Slow majestic rotation
       this.manualOrbitX *= 0.94;
     }
 
     // ================= A. CAMERA JOURNEY INTO THE LIVING GLASS =================
-    // Camera travels from wide sphere (z: 6.6) -> breaches glass surface -> lands inside near bottle (z: 1.45)
+    // Camera travels from wide sphere -> breaches glass surface -> lands inside near bottle
+    const dFactor = this.cameraDistanceFactor || 1.0;
+    const yOff = this.cameraYOffset || 0;
+
     let camZ, camY, camX;
     let glassOpacity;
     let partingFactor = 0;
@@ -936,8 +1035,8 @@ export class SkynrootHeroExperience {
     if (p < 0.40) {
       // Phase 1: Wide Shot approaching the Glass Sphere
       const subT = p / 0.40;
-      camZ = 7.0 - subT * 4.0;       // 7.0 down to 3.0 (at outer glass surface)
-      camY = 0.35 - subT * 0.25;     // 0.35 down to 0.10
+      camZ = (7.0 * dFactor) - subT * (4.0 * dFactor);
+      camY = (0.35 + yOff) - subT * 0.25;
       camX = this.mouseX * 0.35;
       glassOpacity = 0.94;
       partingFactor = 0;
@@ -945,27 +1044,26 @@ export class SkynrootHeroExperience {
     } else if (p < 0.55) {
       // Phase 2: Breaching the Glass Surface into the Miniature Ecosystem
       const subT = (p - 0.40) / 0.15;
-      camZ = 3.0 - subT * 1.35;      // 3.0 through glass surface down to 1.65
-      camY = 0.10 - subT * 0.20;     // 0.10 down to -0.10
+      camZ = (3.0 * dFactor) - subT * (1.35 * dFactor);
+      camY = (0.10 + yOff * 0.6) - subT * 0.20;
       camX = this.mouseX * 0.22;
-      // Glass surface fades smoothly to 0.16 so camera passes effortlessly without clipping
       glassOpacity = 0.94 - subT * 0.78;
       partingFactor = subT * 0.5;
       spotIntensity = subT * 1.8;
     } else if (p < 0.80) {
       // Phase 3: The Serum Reveal - Camera arrives at the central bottle
       const subT = (p - 0.55) / 0.25;
-      camZ = 1.65 - subT * 0.15;     // Settles at 1.50 close-up product perspective
-      camY = -0.10 + Math.sin(time * 0.8) * 0.015;
+      camZ = (1.65 * Math.min(1.15, dFactor)) - subT * 0.15;
+      camY = (-0.10 + yOff * 0.3) + Math.sin(time * 0.8) * 0.015;
       camX = this.mouseX * 0.15;
       glassOpacity = 0.16;
-      partingFactor = 0.5 + subT * 0.5; // Leaves fully parted
-      spotIntensity = 1.8 + subT * 1.7; // Full radiance (3.5)
+      partingFactor = 0.5 + subT * 0.5;
+      spotIntensity = 1.8 + subT * 1.7;
     } else {
       // Phase 4: Transition into the website & Apothecary Collection
       const subT = (p - 0.80) / 0.20;
-      camZ = 1.50 + subT * 0.95;     // Camera lifts and backs away slightly
-      camY = -0.10 + subT * 0.90;    // High-angle majestic view
+      camZ = (1.50 + subT * 0.95) * dFactor;
+      camY = (-0.10 + yOff * 0.3) + subT * 0.90;
       camX = this.mouseX * 0.15 - subT * 0.6;
       glassOpacity = 0.16 + subT * 0.4;
       partingFactor = 1.0;
@@ -974,7 +1072,7 @@ export class SkynrootHeroExperience {
 
     // Apply Camera transforms
     this.camera.position.set(camX, camY + this.mouseY * 0.15, camZ);
-    this.camera.lookAt(0, -0.22, 0);
+    this.camera.lookAt(0, -0.22 + yOff * 0.5, 0);
 
     // Update Outer Glass Opacity dynamically during journey
     if (this.outerGlassMesh && this.sphereGlassMaterial) {

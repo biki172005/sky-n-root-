@@ -143,6 +143,8 @@ class SkynrootApp {
   }
 
   initCardTilt() {
+    if (window.matchMedia('(pointer: coarse)').matches) return;
+
     const cards = document.querySelectorAll('.product-card[data-tilt]');
     cards.forEach(card => {
       card.addEventListener('mousemove', (e) => {
@@ -331,7 +333,10 @@ class SkynrootApp {
           });
           // Close mobile menu if open
           const mobileMenu = document.getElementById('mobile-menu');
-          if (mobileMenu) mobileMenu.classList.remove('open');
+          if (mobileMenu) {
+            mobileMenu.classList.remove('open');
+            document.body.classList.remove('no-scroll');
+          }
         }
       });
     });

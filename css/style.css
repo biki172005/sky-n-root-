@@ -48,6 +48,11 @@
   /* Layout */
   --container-max: 1360px;
   --header-height: 84px;
+  --safe-top: env(safe-area-inset-top, 0px);
+  --safe-bottom: env(safe-area-inset-bottom, 0px);
+  --safe-left: env(safe-area-inset-left, 0px);
+  --safe-right: env(safe-area-inset-right, 0px);
+  --container-padding: clamp(1rem, 4vw, 2.25rem);
   --transition-smooth: all 0.45s cubic-bezier(0.16, 1, 0.3, 1);
   --transition-fast: all 0.25s ease-out;
   --radius-sm: 4px;
@@ -83,7 +88,7 @@ body.no-scroll {
   overflow: hidden;
 }
 
-img {
+img, canvas, video, svg {
   max-width: 100%;
   height: auto;
   display: block;
@@ -125,19 +130,20 @@ body::before {
   width: 100%;
   max-width: var(--container-max);
   margin: 0 auto;
-  padding: 0 2rem;
+  padding: 0 var(--container-padding);
 }
 
 /* Section Common */
 .section {
-  padding: 8rem 0;
+  padding: clamp(4.5rem, 8vw, 8rem) 0;
   position: relative;
+  overflow-x: clip;
 }
 
 .section-header {
   text-align: center;
   max-width: 760px;
-  margin: 0 auto 4.5rem;
+  margin: 0 auto clamp(2.5rem, 5vw, 4.5rem);
 }
 
 .section-badge {
@@ -163,7 +169,7 @@ body::before {
 
 .section-title {
   font-family: var(--font-serif);
-  font-size: 3.25rem;
+  font-size: clamp(2.2rem, 5vw, 3.25rem);
   font-weight: 400;
   color: var(--color-forest);
   line-height: 1.18;
@@ -177,7 +183,7 @@ body::before {
 }
 
 .section-subtitle {
-  font-size: 1.0625rem;
+  font-size: clamp(0.9375rem, 2vw, 1.0625rem);
   color: var(--text-secondary);
   font-weight: 300;
   line-height: 1.7;
@@ -498,7 +504,9 @@ body::before {
   top: 0;
   width: 100%;
   height: 100vh;
+  height: 100dvh;
   min-height: 100vh;
+  min-height: 100dvh;
   padding-top: 0;
   overflow: hidden;
   display: flex;
@@ -575,11 +583,11 @@ body::before {
 
 .hero-headline {
   font-family: var(--font-serif);
-  font-size: 4.85rem;
+  font-size: clamp(2.4rem, 5.5vw, 4.85rem);
   line-height: 1.05;
   font-weight: 300;
   color: var(--color-forest);
-  margin-bottom: 1.75rem;
+  margin-bottom: 1.5rem;
   letter-spacing: -0.025em;
 }
 
@@ -590,11 +598,11 @@ body::before {
 }
 
 .hero-description {
-  font-size: 1.1875rem;
+  font-size: clamp(0.95rem, 2vw, 1.1875rem);
   color: var(--text-secondary);
   font-weight: 300;
-  line-height: 1.7;
-  margin-bottom: 3rem;
+  line-height: 1.65;
+  margin-bottom: clamp(1.5rem, 3vw, 3rem);
   max-width: 480px;
 }
 
@@ -2732,30 +2740,122 @@ body::before {
   color: var(--color-gold);
 }
 
-/* ================= RESPONSIVE MEDIA QUERIES ================= */
-@media (max-width: 1080px) {
-  .hero-content {
-    max-width: 480px;
+/* ==========================================================================
+   SKYNROOT — MOBILE-FIRST SYSTEMIC RESPONSIVE ARCHITECTURE
+   Breakpoints:
+   - Micro & Small phones: 320px–375px
+   - Standard phones: 376px–430px
+   - Large phones: 431px–600px
+   - Tablets: 601px–1024px
+   - Laptops: 1025px–1440px
+   - Large desktop displays: 1441px and above
+   ========================================================================== */
+
+/* 1. Large Desktop Displays (1441px and above) */
+@media (min-width: 1441px) {
+  :root {
+    --container-max: 1440px;
   }
 
-  .origin-grid, .philosophy-grid, .ingredients-banner, .ritual-step-card {
-    grid-template-columns: 1fr;
+  .hero-headline {
+    font-size: 5.25rem;
+  }
+
+  .section-title {
+    font-size: 3.5rem;
+  }
+
+  .products-grid {
+    grid-template-columns: repeat(3, 1fr);
     gap: 3rem;
+  }
+}
+
+/* 2. Tablets & Small Laptops (max-width: 1080px) */
+@media (max-width: 1080px) {
+  .hero-content {
+    max-width: 460px;
+  }
+
+  .origin-grid, 
+  .philosophy-grid {
+    grid-template-columns: 1fr;
+    gap: clamp(2.5rem, 5vw, 4rem);
+  }
+
+  .origin-visual-stack,
+  .philosophy-imagery {
+    max-width: 580px;
+    margin: 0 auto;
+    width: 100%;
   }
 
   .origin-sub-badge {
     position: static;
-    margin-top: 1.5rem;
+    margin: 1.5rem auto 0;
     max-width: 100%;
+    width: 100%;
+  }
+
+  .ingredients-banner {
+    grid-template-columns: 1fr;
+  }
+
+  .ingredients-banner-img {
+    min-height: 260px;
+    max-height: 360px;
+    width: 100%;
+    object-fit: cover;
+  }
+
+  .ingredients-banner-content {
+    padding: clamp(2.5rem, 5vw, 4rem) clamp(1.75rem, 4vw, 3rem);
+  }
+
+  .ritual-step-card {
+    grid-template-columns: 1fr;
+    gap: 2.5rem;
+    padding: clamp(2rem, 4vw, 3rem);
+  }
+
+  .ritual-card-right {
+    order: -1;
+  }
+
+  .ritual-hero-img {
+    max-height: 320px;
   }
 
   .footer-top {
     grid-template-columns: 1fr 1fr;
     gap: 3rem;
   }
+
+  .product-modal-dialog {
+    max-width: 720px;
+  }
+
+  .product-modal-content {
+    grid-template-columns: 1fr;
+    padding: 2.5rem;
+    gap: 2rem;
+  }
 }
 
+/* 3. Tablet Portrait & Mid-Screen Devices (max-width: 860px) */
 @media (max-width: 860px) {
+  :root {
+    --header-height: 70px;
+  }
+
+  .main-navbar {
+    height: var(--header-height);
+  }
+
+  .main-navbar.scrolled {
+    height: 62px;
+  }
+
   .nav-links {
     display: none;
   }
@@ -2764,89 +2864,739 @@ body::before {
     display: flex;
   }
 
+  .navbar-container {
+    padding: 0 1.25rem;
+  }
+
+  .nav-actions {
+    gap: 0.65rem;
+  }
+
+  /* Hero Section Adaptations */
+  .hero-cinematic-track {
+    height: 220vh;
+  }
+
   .hero-sticky-stage {
-    padding-top: 4rem;
+    padding-top: 0;
+    justify-content: center;
   }
 
   .hero-interface-container {
     flex-direction: column;
-    justify-content: center;
+    justify-content: flex-start;
     align-items: center;
     text-align: center;
+    padding-top: calc(var(--header-height) + 1.25rem);
+    padding-bottom: 3rem;
   }
 
   .hero-content {
-    max-width: 100%;
-    padding: 2rem 1.5rem;
+    max-width: 520px;
+    width: 100%;
+    padding: 1.35rem 1.65rem;
+    margin: 0 auto;
     text-align: center;
+    background: rgba(247, 245, 239, 0.76);
+    backdrop-filter: blur(16px);
+    -webkit-backdrop-filter: blur(16px);
+    border: 1px solid rgba(185, 167, 122, 0.4);
+    border-radius: var(--radius-md);
+    box-shadow: 0 14px 36px rgba(24, 40, 32, 0.1);
+  }
+
+  .hero-tag {
+    margin-bottom: 0.85rem;
+    padding: 0.35rem 0.95rem;
+    font-size: 0.7rem;
   }
 
   .hero-headline {
-    font-size: 3.25rem;
+    font-size: clamp(2.2rem, 5.5vw, 3.25rem);
+    margin-bottom: 0.85rem;
   }
 
   .hero-description {
-    margin-left: auto;
-    margin-right: auto;
+    margin: 0 auto 1.25rem;
+    font-size: 0.95rem;
+    line-height: 1.55;
+    max-width: 440px;
   }
 
   .hero-ctas {
     justify-content: center;
+    margin-bottom: 1rem;
+    gap: 0.75rem;
   }
 
   .hero-customizer {
+    margin: 0.5rem auto 0;
+    padding: 0.65rem 1rem;
+  }
+
+  .hero-journey-indicator {
+    position: absolute;
+    bottom: 1.25rem;
+    left: 50%;
+    right: auto;
+    transform: translateX(-50%);
+    gap: 0.75rem;
+  }
+
+  .journey-track {
+    width: 65px;
+  }
+
+  .journey-label {
+    font-size: 0.65rem;
+    white-space: nowrap;
+  }
+
+  /* Serum In-World Product HUD */
+  .serum-reveal-hud {
+    right: 1.25rem;
+    left: 1.25rem;
+    bottom: 3.5rem;
+    max-width: 480px;
     margin: 0 auto;
   }
 
-  .serum-reveal-hud {
-    right: 1.5rem;
-    left: 1.5rem;
-    bottom: 4.5rem;
-    max-width: 100%;
-  }
-
   .serum-hud-card {
-    padding: 1.5rem;
+    padding: 1.35rem 1.65rem;
   }
 
-  .product-modal-content {
-    grid-template-columns: 1fr;
-    padding: 2rem;
-    gap: 2rem;
+  /* Collection Controls & Horizontal Scrolling Chips */
+  .collection-controls {
+    flex-direction: column;
+    align-items: stretch;
+    gap: 1rem;
+    margin-bottom: 2.5rem;
   }
 
-  .section-title {
-    font-size: 2.5rem;
+  .filter-tabs {
+    display: flex;
+    flex-wrap: nowrap;
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+    scrollbar-width: none;
+    width: 100%;
+    padding: 0.25rem 0 0.5rem;
+    gap: 0.5rem;
+  }
+
+  .filter-tabs::-webkit-scrollbar {
+    display: none;
+  }
+
+  .filter-tab-btn {
+    white-space: nowrap;
+    flex-shrink: 0;
+    padding: 0.6rem 1.25rem;
+    font-size: 0.75rem;
+  }
+
+  .sort-wrapper {
+    width: 100%;
+    justify-content: space-between;
+  }
+
+  .sort-select {
+    flex-grow: 1;
+    max-width: 260px;
+  }
+
+  /* Ritual Step Tabs Horizontal Scroll */
+  .ritual-step-tabs {
+    display: flex;
+    flex-wrap: nowrap;
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+    scrollbar-width: none;
+    justify-content: flex-start;
+    width: 100%;
+    padding: 0.25rem 0 0.65rem;
+    gap: 0.65rem;
+    margin-bottom: 2.5rem;
+  }
+
+  .ritual-step-tabs::-webkit-scrollbar {
+    display: none;
+  }
+
+  .ritual-step-tab {
+    white-space: nowrap;
+    flex-shrink: 0;
+    padding: 0.65rem 1.35rem;
   }
 
   .footer-top {
     grid-template-columns: 1fr;
+    gap: 2.5rem;
   }
 }
 
-@media (max-width: 540px) {
-  .section {
-    padding: 5rem 0;
+/* 4. Large Phones & Small Tablets (max-width: 600px) */
+@media (max-width: 600px) {
+  :root {
+    --header-height: 64px;
+  }
+
+  .main-navbar {
+    height: var(--header-height);
+  }
+
+  .main-navbar.scrolled {
+    height: 58px;
+  }
+
+  .navbar-container {
+    padding: 0 0.95rem;
+  }
+
+  .brand-letters {
+    font-size: 1.35rem;
+  }
+
+  .sub-skincare {
+    font-size: 0.52rem;
+    letter-spacing: 0.24em;
+  }
+
+  .nav-actions {
+    gap: 0.4rem;
+  }
+
+  .nav-action-btn,
+  .mobile-toggle-btn {
+    width: 36px;
+    height: 36px;
+  }
+
+  /* Hero Section */
+  .hero-interface-container {
+    padding-top: calc(var(--header-height) + 0.75rem);
+    padding-bottom: 2.75rem;
+  }
+
+  .hero-content {
+    padding: 1.15rem 1.25rem;
+    max-width: 100%;
   }
 
   .hero-headline {
-    font-size: 2.75rem;
+    font-size: clamp(1.85rem, 6.5vw, 2.6rem);
+    margin-bottom: 0.75rem;
   }
 
-  .btn {
-    width: 100%;
+  .hero-description {
+    font-size: 0.875rem;
+    line-height: 1.5;
+    margin-bottom: 1.15rem;
   }
 
   .hero-ctas {
     flex-direction: column;
-    gap: 1rem;
+    width: 100%;
+    gap: 0.65rem;
+    margin-bottom: 0.85rem;
   }
 
+  .hero-ctas .btn {
+    width: 100%;
+    padding: 0.85rem 1.25rem;
+    font-size: 0.75rem;
+  }
+
+  .customizer-swatches {
+    gap: 0.5rem;
+  }
+
+  .swatch-btn {
+    width: 24px;
+    height: 24px;
+  }
+
+  /* Products Grid */
   .products-grid {
     grid-template-columns: 1fr;
+    gap: 1.75rem;
   }
 
+  .product-card {
+    min-width: 0;
+  }
+
+  /* Section Spacing */
+  .section {
+    padding: clamp(3.5rem, 7vw, 5rem) 0;
+  }
+
+  .origin-pillars,
+  .values-list {
+    grid-template-columns: 1fr;
+    gap: 1.25rem;
+  }
+
+  .origin-quote {
+    font-size: clamp(1.35rem, 4.5vw, 1.85rem);
+    padding-left: 1rem;
+    margin-bottom: 1.5rem;
+  }
+
+  /* Ritual Card Product Box */
   .ritual-step-card {
-    padding: 1.75rem;
+    padding: 1.5rem 1.25rem;
+    border-radius: var(--radius-md);
+  }
+
+  .ritual-headline {
+    font-size: clamp(1.6rem, 5vw, 2.25rem);
+  }
+
+  .ritual-product-box {
+    flex-direction: column;
+    align-items: stretch;
+    text-align: center;
+    gap: 1rem;
+    padding: 1rem;
+  }
+
+  .ritual-prod-thumb {
+    margin: 0 auto;
+  }
+
+  .ritual-prod-info {
+    text-align: center;
+  }
+
+  .ritual-product-box .btn {
+    width: 100%;
+  }
+
+  #add-entire-ritual-btn {
+    width: 100%;
+    padding: 1.1rem 1.25rem;
+    font-size: 0.78125rem;
+    letter-spacing: 0.1em;
+  }
+
+  /* Philosophy & CTA */
+  .philosophy-huge-quote {
+    font-size: clamp(1.85rem, 6vw, 2.75rem);
+    margin-bottom: 1.25rem;
+  }
+
+  .final-cta-section {
+    padding: 5rem 0;
+  }
+
+  .cta-headline {
+    font-size: clamp(2rem, 7vw, 2.85rem);
+    margin-bottom: 1.25rem;
+  }
+
+  .cta-description {
+    font-size: 0.95rem;
+    margin-bottom: 2rem;
+  }
+
+  .footer-bottom {
+    flex-direction: column;
+    gap: 0.75rem;
+    text-align: center;
+    padding-top: 1.75rem;
+  }
+
+  /* Drawers & Modals on Mobile */
+  .side-drawer {
+    max-width: 100vw;
+    height: 100vh;
+    height: 100dvh;
+    max-height: 100dvh;
+  }
+
+  .drawer-header {
+    padding: 1.25rem;
+  }
+
+  .shipping-progress-banner {
+    padding: 0.75rem 1.25rem;
+  }
+
+  .drawer-body {
+    padding: 1rem 1.25rem;
+  }
+
+  .drawer-footer {
+    padding: 1.25rem 1.25rem calc(1.25rem + var(--safe-bottom));
+  }
+
+  .product-modal {
+    padding: 0.5rem;
+  }
+
+  .product-modal-dialog {
+    max-height: 94dvh;
+    border-radius: var(--radius-md);
+  }
+
+  .product-modal-content {
+    padding: 1.5rem 1.15rem;
+    gap: 1.25rem;
+  }
+
+  .modal-main-image {
+    max-height: 220px;
+    aspect-ratio: 16/10;
+  }
+
+  .modal-brand-tag {
+    bottom: 0.5rem;
+    padding: 0.25rem 0.75rem;
+  }
+
+  .modal-brand-tag .brand-letters {
+    font-size: 1.05rem;
+  }
+
+  .modal-brand-tag .sub-skincare {
+    font-size: 0.42rem;
+  }
+
+  .modal-thumbnails {
+    gap: 0.5rem;
+  }
+
+  .modal-thumbnails .thumb {
+    width: 52px;
+    height: 52px;
+  }
+
+  .product-modal-close {
+    top: 0.75rem;
+    right: 0.75rem;
+    width: 36px;
+    height: 36px;
+    background: rgba(247, 245, 239, 0.95);
+    box-shadow: var(--shadow-sm);
+  }
+
+  .modal-title {
+    font-size: clamp(1.4rem, 5vw, 1.85rem);
+  }
+
+  .modal-actions {
+    flex-direction: column;
+    gap: 0.65rem;
+  }
+
+  .modal-actions .btn {
+    width: 100%;
+  }
+
+  .checkout-modal {
+    padding: 0.5rem;
+  }
+
+  .checkout-dialog {
+    padding: 1.5rem 1.15rem;
+    border-radius: var(--radius-md);
+  }
+
+  .form-row {
+    grid-template-columns: 1fr;
+    gap: 0;
+  }
+
+  .search-modal-header {
+    padding: 1.25rem 1rem 1rem;
+    gap: 0.75rem;
+  }
+
+  .search-field-wrap input {
+    font-size: 1.25rem;
+    padding: 0.85rem 1rem 0.85rem 2.25rem;
+  }
+
+  .search-results-container {
+    padding: 1rem;
+  }
+
+  /* Full Screen Mobile Navigation Drawer */
+  .mobile-menu {
+    height: 100vh;
+    height: 100dvh;
+    max-height: 100dvh;
+    padding: clamp(1.25rem, 3.5vh, 2.5rem);
+  }
+
+  .mobile-menu-header {
+    margin-bottom: clamp(1.5rem, 3.5vh, 2.5rem);
+  }
+
+  .mobile-nav-links {
+    gap: clamp(0.85rem, 2vh, 1.5rem);
+  }
+
+  .mobile-nav-link {
+    font-size: clamp(1.4rem, 4vh, 2rem);
+  }
+}
+
+/* 5. Small Phones (320px–375px) */
+@media (max-width: 375px) {
+  :root {
+    --header-height: 60px;
+  }
+
+  .main-navbar {
+    height: var(--header-height);
+  }
+
+  .main-navbar.scrolled {
+    height: 56px;
+  }
+
+  .navbar-container {
+    padding: 0 0.65rem;
+  }
+
+  .nav-brand {
+    gap: 0.35rem;
+  }
+
+  .brand-emblem-icon {
+    font-size: 0.95rem;
+  }
+
+  .brand-letters {
+    font-size: 1.18rem;
+  }
+
+  .sub-skincare {
+    font-size: 0.44rem;
+    letter-spacing: 0.18em;
+  }
+
+  .nav-actions {
+    gap: 0.2rem;
+  }
+
+  .nav-action-btn,
+  .mobile-toggle-btn {
+    width: 32px;
+    height: 32px;
+  }
+
+  .nav-action-btn svg,
+  .mobile-toggle-btn svg {
+    width: 17px;
+    height: 17px;
+  }
+
+  .count-badge {
+    top: 2px;
+    right: 2px;
+    min-width: 15px;
+    height: 15px;
+    font-size: 0.55rem;
+  }
+
+  /* Hero on Narrow Phones */
+  .hero-interface-container {
+    padding-top: calc(var(--header-height) + 0.5rem);
+    padding-bottom: 2.25rem;
+  }
+
+  .hero-content {
+    padding: 0.85rem 0.95rem;
+  }
+
+  .hero-tag {
+    font-size: 0.625rem;
+    padding: 0.25rem 0.65rem;
+    margin-bottom: 0.5rem;
+    gap: 0.35rem;
+  }
+
+  .hero-headline {
+    font-size: clamp(1.65rem, 6.8vw, 2.1rem);
+    margin-bottom: 0.5rem;
+  }
+
+  .hero-description {
+    font-size: 0.8125rem;
+    line-height: 1.45;
+    margin-bottom: 0.85rem;
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+  }
+
+  .hero-ctas {
+    gap: 0.5rem;
+    margin-bottom: 0.65rem;
+  }
+
+  .hero-ctas .btn {
+    padding: 0.75rem 1rem;
+    font-size: 0.72rem;
+  }
+
+  .hero-customizer {
+    padding: 0.45rem 0.65rem;
+    gap: 0.35rem;
+  }
+
+  .customizer-label {
+    font-size: 0.625rem;
+  }
+
+  .swatch-btn {
+    width: 22px;
+    height: 22px;
+  }
+
+  .swatch-tip {
+    display: none;
+  }
+
+  .journey-track {
+    width: 50px;
+  }
+
+  .journey-label {
+    font-size: 0.58rem;
+    letter-spacing: 0.1em;
+  }
+
+  /* Product Card Footer on 320px */
+  .product-card-footer {
+    flex-direction: column;
+    align-items: stretch;
+    gap: 0.65rem;
+  }
+
+  .product-buttons {
+    display: grid;
+    grid-template-columns: 1fr 1.3fr;
+    gap: 0.4rem;
+    width: 100%;
+  }
+
+  .product-buttons .btn {
+    padding: 0.65rem 0.5rem;
+    font-size: 0.6875rem;
+    letter-spacing: 0.08em;
+  }
+
+  .price-val {
+    font-size: 1.15rem;
+    text-align: center;
+  }
+
+  /* Promo & Newsletter Form */
+  .promo-input-group {
+    flex-direction: column;
+    gap: 0.4rem;
+  }
+
+  .promo-input-group button {
+    width: 100%;
+    padding: 0.65rem;
+  }
+
+  .newsletter-form {
+    flex-direction: column;
+    gap: 0.4rem;
+  }
+
+  .newsletter-form input {
+    border-radius: var(--radius-sm);
+    width: 100%;
+  }
+
+  .newsletter-form button {
+    border-radius: var(--radius-sm);
+    width: 100%;
+    padding: 0.85rem;
+  }
+}
+
+/* 6. Landscape Mode on Mobile Phones (max-height: 520px and orientation: landscape) */
+@media (max-height: 520px) and (orientation: landscape) {
+  :root {
+    --header-height: 54px;
+  }
+
+  .main-navbar {
+    height: var(--header-height);
+  }
+
+  .hero-interface-container {
+    padding-top: calc(var(--header-height) + 0.5rem);
+    padding-bottom: 1.5rem;
+  }
+
+  .hero-content {
+    max-width: 440px;
+    padding: 0.65rem 1rem;
+  }
+
+  .hero-tag {
+    margin-bottom: 0.35rem;
+    padding: 0.2rem 0.6rem;
+  }
+
+  .hero-headline {
+    font-size: 1.65rem;
+    margin-bottom: 0.35rem;
+  }
+
+  .hero-description {
+    display: none;
+  }
+
+  .hero-ctas {
+    margin-bottom: 0.4rem;
+    gap: 0.5rem;
+  }
+
+  .hero-ctas .btn {
+    padding: 0.55rem 1rem;
+    font-size: 0.6875rem;
+  }
+
+  .hero-customizer {
+    padding: 0.35rem 0.65rem;
+  }
+
+  .mobile-menu-header {
+    margin-bottom: 1rem;
+  }
+
+  .mobile-nav-links {
+    flex-direction: row;
+    flex-wrap: wrap;
+    gap: 0.75rem 1.5rem;
+  }
+
+  .mobile-nav-link {
+    font-size: 1.25rem;
+  }
+}
+
+/* 7. Accessibility: Prefers Reduced Motion */
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+
+  .product-card[data-tilt] {
+    transform: none !important;
   }
 }
